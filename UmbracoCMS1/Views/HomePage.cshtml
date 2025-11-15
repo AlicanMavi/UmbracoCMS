@@ -571,13 +571,13 @@
             }
     }
 
-    /* === SUCCESS STORY SECTION === */
+    /* SUCCESS STORY SECTION */
 
     .success-section {
         background-color: #58625d;
         color: #fff;
         text-align: center;
-        padding: 70px 0 140px; /* justerat så bilden hamnar direkt under siffrorna */
+        padding: 70px 0 140px; 
         background-repeat: no-repeat;
         background-position: center 40%;
         background-size: 900px auto;
@@ -604,13 +604,12 @@
         font-weight: 800;
     }
 
-    /* NY korrekt layout: siffror står bredvid varandra i en rad */
     .success-stats {
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        gap: 120px; /* avstånd mellan siffrorna – motsvarar figma */
-        margin-bottom: 60px; /* mellan siffror och bild */
+        gap: 120px; 
+        margin-bottom: 60px; 
         text-align: center;
     }
 
@@ -632,12 +631,11 @@
         line-height: 1.5;
     }
 
-    /* Bilden under siffrorna */
     .success-overlay-image {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: -230px; /* justerad så den ligger nära siffrorna */
+        bottom: -300px; 
         width: 60%;
         max-width: 820px;
     }
@@ -657,12 +655,34 @@
 
         .success-overlay-image {
             width: 70%;
-            
         }
-    /* === LOGO ROW === */
+    }
+
+    @@media (max-width: 640px) {
+        .success-stats {
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .stat-number {
+            font-size: 44px;
+        }
+
+        .success-section {
+            padding-bottom: 180px;
+        }
+
+        .success-overlay-image {
+            width: 88%;
+            bottom: -180px;
+        }
+    }
+
+    /* === LOGO ROW (ALLA BREDDER) === */
     .logos-section {
-        background: #ffffff;
-        padding: 280px 0 50px; 
+        background: #F7F7F7;
+        padding: 50px 0 50px;
+        margin-top: 400px; 
     }
 
     .logos-row {
@@ -684,6 +704,8 @@
             justify-content: center;
         }
     }
+</style>
+
 }
 
 </style>
