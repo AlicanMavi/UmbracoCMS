@@ -13,23 +13,34 @@
     <title>@Model?.Name</title>
 
     <style>
+        :root {
+            --green-dark: #4f5f5b;
+            --green-main: #3e5048;
+            --gold: #e0ad4d;
+            --text-dark: #333;
+            --text-muted: #777;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
-            color: #333;
+            color: var(--text-dark);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            box-sizing: border-box;
         }
 
-        /* TOP BAR */
+
         .topbar {
-            background-color: #4f5f5b;
+            background-color: var(--green-dark);
             color: #fff;
             font-size: 12px;
         }
@@ -41,16 +52,38 @@
             height: 32px;
         }
 
-        .topbar-left span + span {
-            margin-left: 20px;
+        .topbar-left {
+            opacity: 0.95;
         }
 
-        .topbar-right span {
-            margin-left: 15px;
-            cursor: pointer;
+            .topbar-left span + span {
+                margin-left: 20px;
+            }
+
+        .topbar-right {
+            display: flex;
+            align-items: stretch;
         }
 
-        
+            .topbar-right span {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 34px;
+                border-left: 1px solid rgba(255,255,255,0.15);
+                cursor: pointer;
+                font-size: 11px;
+                text-transform: uppercase;
+            }
+
+                .topbar-right span:last-child {
+                    border-right: 1px solid rgba(255,255,255,0.15);
+                }
+
+                .topbar-right span:hover {
+                    background-color: rgba(0,0,0,0.12);
+                }
+
         .site-header {
             background-color: #ffffff;
             border-bottom: 1px solid #e2e2e2;
@@ -64,9 +97,11 @@
         }
 
         .logo {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
+            color: var(--text-dark);
         }
 
         .logo-circle {
@@ -81,33 +116,77 @@
             font-size: 22px;
         }
 
-        .main-nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
+        .main-nav {
+            flex: 1;
             display: flex;
-            gap: 30px;
-            font-size: 15px;
+            justify-content: center;
         }
 
-        .main-nav a {
-            text-decoration: none;
-            color: #555;
-        }
+            .main-nav ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                gap: 35px;
+                font-size: 14px;
+            }
 
-        .main-nav li.active a {
-            color: #4b6253;
-            font-weight: 600;
-        }
+            .main-nav li {
+                position: relative;
+            }
+
+            .main-nav a {
+                text-decoration: none;
+                color: #555;
+                padding-bottom: 4px;
+                position: relative;
+                text-transform: none;
+            }
+
+                .main-nav a::after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 0;
+                    height: 2px;
+                    background-color: var(--gold);
+                    transition: width 0.2s ease;
+                }
+
+                .main-nav a:hover {
+                    color: var(--gold);
+                }
+
+                    .main-nav a:hover::after {
+                        width: 100%;
+                    }
+
+            .main-nav li.active a {
+                color: var(--gold);
+                font-weight: 600;
+            }
+
+                .main-nav li.active a::after {
+                    width: 100%;
+                }
 
         .header-icons {
             display: flex;
             align-items: center;
             gap: 15px;
-            font-size: 18px;
+            font-size: 16px;
+            color: #555;
         }
 
-       
+            .header-icons span {
+                cursor: pointer;
+            }
+
+                .header-icons span:hover {
+                    color: var(--gold);
+                }
+
         main {
             background-color: #f5f5f5;
         }
@@ -119,32 +198,39 @@
             color: #ccc;
             font-size: 13px;
         }
+
+        .footer-inner {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="topbar">
         <div class="container topbar-inner">
             <div class="topbar-left">
-                <span>example@email.com</span>
-                <span>01 234 567 89</span>
+                <span>Klarabergsviadukten 90, 111 64 Stockholm</span>
             </div>
             <div class="topbar-right">
-                <span>in</span>
-                <span>fb</span>
+                <span>f</span>
                 <span>tw</span>
+                <span>in</span>
             </div>
         </div>
     </div>
 
     <header class="site-header">
         <div class="container site-header-inner">
-            <div class="logo">
+            <a href="@root?.Url()" class="logo">
                 <div class="logo-circle"></div>
                 <div class="logo-text">Onatrix</div>
-            </div>
+            </a>
 
             <nav class="main-nav">
                 <ul>
+                    <li class="@(Model.Id == root?.Id ? "active" : "")">
+                        <a href="@root?.Url()">Home</a>
+                    </li>
+
                     @foreach (var item in menuItems)
                     {
                         <li class="@(item.Id == Model.Id ? "active" : "")">
@@ -153,6 +239,7 @@
                     }
                 </ul>
             </nav>
+
 
             <div class="header-icons">
                 <span>🔍</span>
@@ -169,6 +256,5 @@
             <p>© Onatrix. All Rights Reserved. Credits to Themesflat</p>
         </div>
     </footer>
-
 </body>
 </html>

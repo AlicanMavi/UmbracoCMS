@@ -1,0 +1,409 @@
+﻿@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@{
+    Layout = "_Layout";
+
+    var heroTitle = Model.Value<string>("heroTitle") ?? "Contact Us";
+
+    var contactImage = Model.Value<IPublishedContent>("contactImage");
+    var contactImageUrl = contactImage?.Url() ?? "";
+
+    var contactHeading = Model.Value<string>("contactHeading") ?? "";
+    var officeLocation = Model.Value<string>("officeLocation") ?? "";
+    var phoneNumber = Model.Value<string>("phoneNumber") ?? "";
+    var emailAddress = Model.Value<string>("emailAddress") ?? "";
+
+    var callbackEyebrow = Model.Value<string>("callbackEyebrow") ?? "";
+    var callbackTitle = Model.Value<string>("callbackTitle") ?? "";
+    var callbackIntro = Model.Value<string>("callbackIntro") ?? "";
+    var mapImage = Model.Value<IPublishedContent>("callbackMapImage");
+    var mapImageUrl = mapImage?.Url() ?? "";
+}
+
+<section class="contact-hero-top">
+    <div class="container">
+        <h1>@heroTitle</h1>
+        <p class="breadcrumb">Home / <span>Contact</span></p>
+    </div>
+</section>
+
+<section class="about-contact">
+    <div class="container about-contact-inner">
+        <div class="about-contact-left">
+            <div class="contact-shape"></div>
+
+            @if (!string.IsNullOrEmpty(contactImageUrl))
+            {
+                <img src="@contactImageUrl" alt="Contact person" />
+            }
+        </div>
+
+        <div class="about-contact-right">
+            <h2>@contactHeading</h2>
+
+            <ul class="contact-list">
+                @if (!string.IsNullOrWhiteSpace(officeLocation))
+                {
+                    <li>
+                        <span class="icon">📍</span>
+                        <div>
+                            <strong>Office location</strong>
+                            @officeLocation
+                        </div>
+                    </li>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(phoneNumber))
+                {
+                    <li>
+                        <span class="icon">📞</span>
+                        <div>
+                            <strong>Phone number</strong>
+                            @phoneNumber
+                        </div>
+                    </li>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(emailAddress))
+                {
+                    <li>
+                        <span class="icon">✉</span>
+                        <div>
+                            <strong>E-mail address</strong>
+                            @emailAddress
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="callback-map-section" style="@(string.IsNullOrEmpty(mapImageUrl) ? "" : $"background-image:url('{mapImageUrl}');")">
+    <div class="callback-overlay">
+        <div class="container">
+            <div class="callback-card">
+                <p class="callback-eyebrow">@callbackEyebrow</p>
+                <h2 class="callback-title">@callbackTitle</h2>
+
+                @if (!string.IsNullOrWhiteSpace(callbackIntro))
+                {
+                    <p class="callback-intro">@callbackIntro</p>
+                }
+
+                <form class="callback-form">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Name</label>
+                            <input type="text" placeholder="Your name" />
+                        </div>
+                        <div class="form-field">
+                            <label>Email address</label>
+                            <input type="email" placeholder="Email address" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Phone</label>
+                            <input type="text" placeholder="Phone" />
+                        </div>
+                        <div class="form-field">
+                            <label>Service</label>
+                            <select>
+                                <option>Financial consulting</option>
+                                <option>Risk management</option>
+                                <option>Tax &amp; audit</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="logos-section">
+    <div class="container logos-inner">
+        <img src="/media/vmsnjq2o/logo-1.svg" alt="Logo 1" />
+        <img src="/media/0lch4epn/logo-2.svg" alt="Logo 2" />
+        <img src="/media/2drfq0cq/logo-3.svg" alt="Logo 3" />
+        <img src="/media/3hllo5gg/logo-4.svg" alt="Logo 4" />
+        <img src="/media/unmibcsx/logo-5.svg" alt="Logo 5" />
+        <img src="/media/ipxicfxj/logo-6.svg" alt="Logo 6" />
+    </div>
+</section>
+
+
+<style>
+    .contact-hero-top {
+        background-color: #f7f7f7;
+        padding: 60px 0 50px;
+        text-align: center;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+        .contact-hero-top h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #424a46;
+        }
+
+    .breadcrumb {
+        margin: 0;
+        font-size: 12px;
+        color: #999;
+    }
+
+        .breadcrumb span {
+            color: #424a46;
+        }
+
+    .about-contact {
+        background-color: #ffffff;
+        padding: 80px 0 90px;
+    }
+
+    .about-contact-inner {
+        display: flex;
+        align-items: center;
+        gap: 80px;
+    }
+
+    .about-contact-left {
+        flex: 0 0 45%;
+        position: relative;
+        min-height: 320px;
+    }
+
+    .contact-shape {
+        position: absolute;
+        bottom: 0;
+        left: 18%;
+        width: 70%;
+        height: 60%;
+        background: #4b6253;
+        transform: skewX(-18deg);
+    }
+
+    .about-contact-left img {
+        position: relative;
+        z-index: 2;
+        max-width: 100%;
+        height: 360px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .about-contact-right {
+        flex: 0 0 45%;
+    }
+
+        .about-contact-right h2 {
+            font-size: 30px;
+            font-weight: 800;
+            line-height: 1.3;
+            color: #3e5048;
+            margin: 0 0 28px;
+        }
+
+    .contact-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .contact-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .contact-list .icon {
+            font-size: 16px;
+            line-height: 1;
+            color: #c4a46b;
+            margin-top: 4px;
+        }
+
+        .contact-list strong {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a0a0a0;
+            margin-bottom: 4px;
+        }
+
+        .contact-list li div {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .contact-list li:last-child div {
+            font-style: italic;
+        }
+
+    .callback-map-section {
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        padding: 220px 0 0; 
+    }
+
+    .callback-overlay {
+        padding: 0;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .callback-card {
+        max-width: 780px;
+        width: 100%;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 50px 60px 40px;
+        text-align: center;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+    }
+
+
+    .callback-eyebrow {
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #c4a46b;
+        margin: 0 0 8px;
+    }
+
+    .callback-title {
+        margin: 0 0 12px;
+        font-size: 24px;
+        font-weight: 800;
+        color: #3e5048;
+    }
+
+    .callback-intro {
+        margin: 0 0 26px;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .callback-form {
+        text-align: left;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px 24px;
+        margin-bottom: 18px;
+    }
+
+    .form-field label {
+        display: block;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #999;
+        margin-bottom: 4px;
+    }
+
+    .form-field input,
+    .form-field select {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 13px;
+        border-radius: 2px;
+        border: 1px solid #ddd;
+        outline: none;
+    }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            border-color: #4b6253;
+        }
+
+    .form-actions {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+        .form-actions button {
+            padding: 10px 38px;
+            background-color: #4b6253;
+            color: #fff;
+            border: none;
+            font-size: 13px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+            .form-actions button:hover {
+                background-color: #3b4f43;
+            }
+
+    @@media (max-width: 900px) {
+        .about-contact-inner {
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .about-contact-left,
+        .about-contact-right {
+            flex: 1 1 100%;
+        }
+
+        .callback-card {
+            padding: 30px 24px 30px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .logos-section {
+        background: #ffffff;
+        padding: 50px 0 40px;
+        text-align: center;
+    }
+
+    .logos-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 60px;
+        flex-wrap: nowrap;
+        opacity: 0.6;
+    }
+
+        .logos-inner img {
+            height: 38px;
+            width: auto;
+            filter: grayscale(100%);
+        }
+
+    @@media (max-width: 900px) {
+        .logos-inner
+
+    {
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .logos-inner img {
+        height: 32px;
+    }
+
+    }</style>

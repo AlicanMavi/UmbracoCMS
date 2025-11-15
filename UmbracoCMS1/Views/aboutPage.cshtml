@@ -1,0 +1,509 @@
+﻿@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Models.Blocks
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@{
+    Layout = "_Layout";
+
+    var mainImage = Model.Value<IPublishedContent>("mainImage");
+    var mainImageUrl = mainImage?.Url() ?? "";
+
+    var introHeading = Model.Value<string>("introHeading") ?? "";
+    var introBody = Model.Value<string>("introBody") ?? "";
+
+    var trustedTitle = Model.Value<string>("trustedTitle") ?? "";
+    var trustedText = Model.Value<string>("trustedText") ?? "";
+    var trustedImage = Model.Value<IPublishedContent>("trustedImage");
+    var trustedImageUrl = trustedImage?.Url() ?? "";
+
+    var pageSections = Model.Value<IEnumerable<BlockListItem>>("pageSections")
+                      ?? Enumerable.Empty<BlockListItem>();
+
+    var contactImage = Model.Value<IPublishedContent>("contactImage");
+    var contactImageUrl = contactImage?.Url() ?? "";
+
+    var contactHeading = Model.Value<string>("contactHeading") ?? "";
+    var officeLocation = Model.Value<string>("officeLocation") ?? "";
+    var phoneNumber = Model.Value<string>("phoneNumber") ?? "";
+    var emailAddress = Model.Value<string>("emailAddress") ?? "";
+
+}
+
+<section class="about-hero-top">
+    <div class="container">
+        <h1>About Us</h1>
+        <p class="breadcrumb">Home / <span>About</span></p>
+    </div>
+</section>
+
+<section class="about-main">
+    <div class="container about-main-inner">
+        <div class="about-main-image">
+            @if (!string.IsNullOrEmpty(mainImageUrl))
+            {
+                <img src="@mainImageUrl" alt="About image" />
+            }
+        </div>
+
+        <div class="about-main-text">
+            <h2>@introHeading</h2>
+
+            @if (!string.IsNullOrWhiteSpace(introBody))
+            {
+                <div class="about-main-body">
+                    @Html.Raw(introBody)
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="about-trusted">
+    <div class="container about-trusted-inner">
+        <div class="about-trusted-text">
+            <p class="trusted-eyebrow">GREAT REVIEWS FOR OUR SERVICES</p>
+
+            <h2 class="trusted-title">@trustedTitle</h2>
+
+            @if (!string.IsNullOrWhiteSpace(trustedText))
+            {
+                <div class="trusted-body">
+                    @Html.Raw(trustedText)
+                </div>
+            }
+
+            <div class="trusted-stars">
+                &#9733;&#9733;&#9733;&#9733;&#9733;
+            </div>
+
+            <div class="trusted-person">
+                <div class="trusted-name">Kevin Gardner</div>
+                <div class="trusted-company">Swedbank</div>
+            </div>
+        </div>
+
+        <div class="about-trusted-image">
+            @if (!string.IsNullOrEmpty(trustedImageUrl))
+            {
+                <img src="@trustedImageUrl" alt="Trusted clients" />
+            }
+        </div>
+    </div>
+</section>
+
+@foreach (var block in pageSections)
+{
+    if (block.Content.ContentType.Alias == "teamSection")
+    {
+        var teamEyebrow = block.Content.Value<string>("teamEyebrow") ?? "";
+        var teamTitle = block.Content.Value<string>("teamTitle") ?? "";
+        var teamItems = block.Content.Value<IEnumerable<BlockListItem>>("teamItems")
+                        ?? Enumerable.Empty<BlockListItem>();
+
+        <section class="team-section">
+            <div class="container">
+                <p class="team-eyebrow">@teamEyebrow</p>
+                <h2 class="team-title">@teamTitle</h2>
+
+                <div class="team-grid">
+                    @foreach (var member in teamItems)
+                    {
+                        var name = member.Content.Value<string>("memberName") ?? "";
+                        var role = member.Content.Value<string>("memberRole") ?? "";
+                        var photo = member.Content.Value<IPublishedContent>("memberPhoto");
+                        var photoUrl = photo?.Url() ?? "";
+
+                        <div class="team-card">
+                            <div class="team-photo">
+                                @if (!string.IsNullOrEmpty(photoUrl))
+                                {
+                                    <img src="@photoUrl" alt="@name" />
+                                }
+                            </div>
+
+                            <div class="team-info">
+                                <h3>@name</h3>
+                                <p>@role</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+}
+
+<section class="about-contact">
+    <div class="container about-contact-inner">
+        <div class="about-contact-left">
+            <div class="contact-shape"></div>
+
+            @if (!string.IsNullOrEmpty(contactImageUrl))
+            {
+                <img src="@contactImageUrl" alt="Contact person" />
+            }
+        </div>
+
+        <div class="about-contact-right">
+            <h2>@contactHeading</h2>
+
+            <ul class="contact-list">
+                @if (!string.IsNullOrWhiteSpace(officeLocation))
+                {
+                    <li>
+                        <span class="icon">📍</span>
+                        <div>
+                            <strong>Office location</strong><br />
+                            @officeLocation
+                        </div>
+                    </li>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(phoneNumber))
+                {
+                    <li>
+                        <span class="icon">📞</span>
+                        <div>
+                            <strong>Phone number</strong><br />
+                            @phoneNumber
+                        </div>
+                    </li>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(emailAddress))
+                {
+                    <li>
+                        <span class="icon">✉</span>
+                        <div>
+                            <strong>E-mail address</strong><br />
+                            @emailAddress
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .about-hero-top {
+        background-color: #f7f7f7;
+        padding: 60px 0 50px;
+        text-align: center;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+        .about-hero-top h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #424a46;
+        }
+
+    .breadcrumb {
+        margin: 0;
+        font-size: 12px;
+        color: #999;
+    }
+
+        .breadcrumb span {
+            color: #424a46;
+        }
+
+    .about-main {
+        background-color: #ffffff;
+        padding: 70px 0 90px;
+    }
+
+    .about-main-inner {
+        display: flex;
+        gap: 60px;
+        align-items: flex-start;
+    }
+
+    .about-main-image {
+        flex: 0 0 35%;
+    }
+
+        .about-main-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+    .about-main-text {
+        flex: 0 0 65%;
+    }
+
+        .about-main-text h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 18px;
+            color: #424a46;
+        }
+
+    .about-main-body {
+        font-size: 14px;
+        line-height: 1.8;
+        color: #666;
+    }
+
+    .about-trusted {
+        background-color: #f3f3f3;
+        padding: 80px 0;
+    }
+
+    .about-trusted-inner {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+    }
+
+    .about-trusted-text {
+        flex: 0 0 50%;
+        padding: 40px 60px 40px 0;
+    }
+
+    .trusted-eyebrow {
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #c4a46b;
+        margin: 0 0 10px;
+    }
+
+    .trusted-title {
+        margin: 0 0 18px;
+        font-size: 26px;
+        font-weight: 800;
+        color: #3e5048;
+    }
+
+    .trusted-body {
+        font-size: 14px;
+        line-height: 1.8;
+        color: #666;
+        max-width: 420px;
+    }
+
+    .trusted-stars {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #f2c94c;
+        letter-spacing: 3px;
+    }
+
+    .trusted-person {
+        margin-top: 12px;
+        font-size: 13px;
+    }
+
+    .trusted-name {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .trusted-company {
+        color: #3e5048;
+        font-weight: 600;
+    }
+
+    .about-trusted-image {
+        flex: 0 0 50%;
+    }
+
+        .about-trusted-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    /* TEAM SECTION */
+    .team-section {
+        background-color: #ffffff;
+        padding: 90px 0 120px;
+        text-align: center;
+    }
+
+    .team-eyebrow {
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: #c4a46b;
+        text-transform: uppercase;
+        margin: 0 0 10px;
+    }
+
+    .team-title {
+        font-size: 26px;
+        font-weight: 800;
+        color: #3e5048;
+        margin: 0 0 50px;
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px 30px;
+    }
+
+    .team-card {
+        text-align: center;
+    }
+
+    .team-photo img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        border-radius: 4px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    }
+
+    .team-info h3 {
+        font-size: 15px;
+        font-weight: 700;
+        margin: 14px 0 5px;
+        color: #333;
+    }
+
+    .team-info p {
+        font-size: 13px;
+        color: #666;
+        margin: 0;
+    }
+
+    @@media (max-width: 900px) {
+        .about-main-inner {
+            flex-direction: column;
+        }
+
+        .about-main-image,
+        .about-main-text {
+            flex: 1 1 100%;
+        }
+
+        .about-trusted-inner {
+            flex-direction: column;
+        }
+
+        .about-trusted-text {
+            padding: 40px 0 20px 0;
+        }
+
+        .team-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .team-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .about-contact {
+        background-color: #f5f5f5;
+        padding: 80px 0 90px;
+    }
+
+    .about-contact-inner {
+        display: flex;
+        align-items: center;
+        gap: 80px;
+    }
+
+    .about-contact-left {
+        flex: 0 0 45%;
+        position: relative;
+        min-height: 320px;
+    }
+
+    .contact-shape {
+        position: absolute;
+        bottom: 0;
+        left: 18%;
+        width: 70%;
+        height: 60%;
+        background: #4b6253;
+        transform: skewX(-18deg);
+    }
+
+    .about-contact-left img {
+        position: relative;
+        z-index: 2;
+        max-width: 100%;
+        height: 360px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .about-contact-right {
+        flex: 0 0 45%;
+    }
+
+        .about-contact-right h2 {
+            font-size: 30px;
+            font-weight: 800;
+            line-height: 1.3;
+            color: #3e5048;
+            margin: 0 0 28px;
+        }
+
+    .contact-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .contact-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .contact-list .icon {
+            font-size: 16px;
+            line-height: 1;
+            color: #c4a46b;
+            margin-top: 4px;
+        }
+
+        .contact-list strong {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a0a0a0;
+            margin-bottom: 4px;
+        }
+
+        .contact-list li div {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .contact-list li:last-child div {
+            font-style: italic;
+        }
+
+
+    @@media (max-width: 900px) {
+        .about-contact-inner {
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .about-contact-left,
+        .about-contact-right {
+            flex: 1 1 100%;
+        }
+
+        .about-contact-right {
+            text-align: left;
+        }
+    }
+</style>
+
