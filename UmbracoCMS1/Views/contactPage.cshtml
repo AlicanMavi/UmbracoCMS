@@ -1,5 +1,6 @@
 ﻿@using Umbraco.Cms.Core.Models
 @using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Collections.Generic
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
@@ -18,16 +19,34 @@
     var callbackEyebrow = Model.Value<string>("callbackEyebrow") ?? "";
     var callbackTitle = Model.Value<string>("callbackTitle") ?? "";
     var callbackIntro = Model.Value<string>("callbackIntro") ?? "";
+    var callbackServiceOptions = Model.Value<string>("callbackServiceOptions") ?? "";
     var mapImage = Model.Value<IPublishedContent>("callbackMapImage");
     var mapImageUrl = mapImage?.Url() ?? "";
+
+    var clientLogos = Model.Value<IEnumerable<IPublishedContent>>("clientLogos");
 }
+
 
 <section class="contact-hero-top">
     <div class="container">
         <h1>@heroTitle</h1>
-        <p class="breadcrumb">Home / <span>Contact</span></p>
+
+        @{
+            var home = Umbraco.ContentAtRoot().FirstOrDefault();
+        }
+
+        <p class="breadcrumb">
+            @if (home != null)
+            {
+                <a href="@home.Url()">Home</a>
+                <span> / </span>
+            }
+
+            <span>@Model.Name</span>
+        </p>
     </div>
 </section>
+
 
 <section class="about-contact">
     <div class="container about-contact-inner">
@@ -113,10 +132,24 @@
                         <div class="form-field">
                             <label>Service</label>
                             <select>
-                                <option>Financial consulting</option>
-                                <option>Risk management</option>
-                                <option>Tax &amp; audit</option>
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(callbackServiceOptions))
+                                    {
+                                        var rows = callbackServiceOptions.Split('\n');
+
+                                        foreach (var row in rows)
+                                        {
+                                            var text = row.Trim();
+
+                                            if (!string.IsNullOrWhiteSpace(text))
+                                            {
+                                                <option>@text</option>
+                                            }
+                                        }
+                                    }
+                                }
                             </select>
+
                         </div>
                     </div>
 
@@ -131,12 +164,19 @@
 
 <section class="logos-section">
     <div class="container logos-inner">
-        <img src="/media/vmsnjq2o/logo-1.svg" alt="Logo 1" />
-        <img src="/media/0lch4epn/logo-2.svg" alt="Logo 2" />
-        <img src="/media/2drfq0cq/logo-3.svg" alt="Logo 3" />
-        <img src="/media/3hllo5gg/logo-4.svg" alt="Logo 4" />
-        <img src="/media/unmibcsx/logo-5.svg" alt="Logo 5" />
-        <img src="/media/ipxicfxj/logo-6.svg" alt="Logo 6" />
+        @if (clientLogos != null)
+        {
+            foreach (var logo in clientLogos)
+            {
+                var url = logo != null ? logo.Url() : "";
+                var name = logo != null ? logo.Name : "Client logo";
+
+                if (!string.IsNullOrEmpty(url))
+                {
+                    <img src="@url" alt="@name" />
+                }
+            }
+        }
     </div>
 </section>
 

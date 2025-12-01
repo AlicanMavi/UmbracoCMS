@@ -17,6 +17,13 @@
     var trustedImage = Model.Value<IPublishedContent>("trustedImage");
     var trustedImageUrl = trustedImage?.Url() ?? "";
 
+    var reviewEyebrow = Model.Value<string>("reviewEyebrow") ?? "";
+    var reviewTitle = Model.Value<string>("reviewTitle") ?? "";
+    var reviewBody = Model.Value<string>("reviewBody") ?? "";
+    var reviewStars = Model.Value<string>("reviewStars") ?? "";
+    var reviewName = Model.Value<string>("reviewName") ?? "";
+    var reviewCompany = Model.Value<string>("reviewCompany") ?? "";
+
     var pageSections = Model.Value<IEnumerable<BlockListItem>>("pageSections")
                       ?? Enumerable.Empty<BlockListItem>();
 
@@ -28,12 +35,46 @@
     var phoneNumber = Model.Value<string>("phoneNumber") ?? "";
     var emailAddress = Model.Value<string>("emailAddress") ?? "";
 
+    
 }
 
 <section class="about-hero-top">
     <div class="container">
         <h1>About Us</h1>
-        <p class="breadcrumb">Home / <span>About</span></p>
+        <p class="breadcrumb">
+            @{
+                var root = Umbraco.ContentAtRoot().FirstOrDefault();
+                var trail = new List<IPublishedContent>();
+
+                if (root != null)
+                {
+                    var current = Model.Parent;
+
+                    while (current != null && current.Id != root.Id)
+                    {
+                        trail.Add(current);
+                        current = current.Parent;
+                    }
+
+                    trail.Reverse();
+                }
+            }
+
+            @if (root != null)
+            {
+                <a href="@root.Url()">Home</a>
+            }
+
+            @foreach (var item in trail)
+            {
+                <span> / </span>
+                <a href="@item.Url()">@item.Name</a>
+            }
+
+            <span> / </span>
+            <span>@Model.Name</span>
+        </p>
+
     </div>
 </section>
 
@@ -62,25 +103,45 @@
 <section class="about-trusted">
     <div class="container about-trusted-inner">
         <div class="about-trusted-text">
-            <p class="trusted-eyebrow">GREAT REVIEWS FOR OUR SERVICES</p>
+            @if (!string.IsNullOrWhiteSpace(reviewEyebrow))
+            {
+                <p class="trusted-eyebrow">@reviewEyebrow</p>
+            }
 
-            <h2 class="trusted-title">@trustedTitle</h2>
+            @if (!string.IsNullOrWhiteSpace(reviewTitle))
+            {
+                <h2 class="trusted-title">@reviewTitle</h2>
+            }
 
-            @if (!string.IsNullOrWhiteSpace(trustedText))
+            @if (!string.IsNullOrWhiteSpace(reviewBody))
             {
                 <div class="trusted-body">
-                    @Html.Raw(trustedText)
+                    @Html.Raw(reviewBody)
                 </div>
             }
 
-            <div class="trusted-stars">
-                &#9733;&#9733;&#9733;&#9733;&#9733;
-            </div>
+            @if (!string.IsNullOrWhiteSpace(reviewStars))
+            {
+                <div class="trusted-stars">
+                    @reviewStars
+                </div>
+            }
 
-            <div class="trusted-person">
-                <div class="trusted-name">Kevin Gardner</div>
-                <div class="trusted-company">Swedbank</div>
-            </div>
+            @if (!string.IsNullOrWhiteSpace(reviewName) || !string.IsNullOrWhiteSpace(reviewCompany))
+            {
+                <div class="trusted-person">
+                    @if (!string.IsNullOrWhiteSpace(reviewName))
+                    {
+                        <div class="trusted-name">@reviewName</div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(reviewCompany))
+                    {
+                        <div class="trusted-company">@reviewCompany</div>
+                    }
+                </div>
+            }
+
         </div>
 
         <div class="about-trusted-image">
@@ -90,6 +151,8 @@
             }
         </div>
     </div>
+</section>
+
 </section>
 
 @foreach (var block in pageSections)
@@ -186,20 +249,19 @@
     </div>
 </section>
 
-
 <style>
     .about-hero-top {
-        background-color: #f7f7f7;
-        padding: 60px 0 50px;
+        background: #f7f7f7;
+        padding: 50px 0 40px;
         text-align: center;
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e2e2e2;
     }
 
         .about-hero-top h1 {
-            margin: 0 0 8px;
-            font-size: 28px;
+            margin: 0 0 6px;
+            font-size: 26px;
             font-weight: 700;
-            color: #424a46;
+            color: #444;
         }
 
     .breadcrumb {
@@ -209,17 +271,17 @@
     }
 
         .breadcrumb span {
-            color: #424a46;
+            color: #444;
         }
 
     .about-main {
-        background-color: #ffffff;
-        padding: 70px 0 90px;
+        background: #fff;
+        padding: 60px 0 70px;
     }
 
     .about-main-inner {
         display: flex;
-        gap: 60px;
+        gap: 40px;
         align-items: flex-start;
     }
 
@@ -228,42 +290,42 @@
     }
 
         .about-main-image img {
+            display: block;
             width: 100%;
             height: auto;
-            display: block;
         }
 
     .about-main-text {
-        flex: 0 0 65%;
+        flex: 1;
     }
 
         .about-main-text h2 {
             font-size: 20px;
             font-weight: 600;
-            margin: 0 0 18px;
-            color: #424a46;
+            margin: 0 0 16px;
+            color: #333;
         }
 
     .about-main-body {
         font-size: 14px;
-        line-height: 1.8;
+        line-height: 1.7;
         color: #666;
     }
 
     .about-trusted {
-        background-color: #f3f3f3;
-        padding: 80px 0;
+        background: #f7f7f7;
+        padding: 70px 0;
     }
 
     .about-trusted-inner {
         display: flex;
         align-items: stretch;
-        gap: 0;
+        gap: 40px;
     }
 
     .about-trusted-text {
-        flex: 0 0 50%;
-        padding: 40px 60px 40px 0;
+        flex: 0 0 45%;
+        padding-right: 20px;
     }
 
     .trusted-eyebrow {
@@ -271,32 +333,32 @@
         letter-spacing: 2px;
         text-transform: uppercase;
         color: #c4a46b;
-        margin: 0 0 10px;
+        margin: 0 0 6px;
     }
 
     .trusted-title {
-        margin: 0 0 18px;
-        font-size: 26px;
+        margin: 0 0 14px;
+        font-size: 24px;
         font-weight: 800;
         color: #3e5048;
     }
 
     .trusted-body {
         font-size: 14px;
-        line-height: 1.8;
+        line-height: 1.7;
         color: #666;
         max-width: 420px;
     }
 
     .trusted-stars {
-        margin-top: 20px;
-        font-size: 14px;
+        margin-top: 16px;
+        font-size: 13px;
         color: #f2c94c;
-        letter-spacing: 3px;
+        letter-spacing: 2px;
     }
 
     .trusted-person {
-        margin-top: 12px;
+        margin-top: 10px;
         font-size: 13px;
     }
 
@@ -311,20 +373,19 @@
     }
 
     .about-trusted-image {
-        flex: 0 0 50%;
+        flex: 0 0 55%;
     }
 
         .about-trusted-image img {
+            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
         }
 
-    /* TEAM SECTION */
     .team-section {
-        background-color: #ffffff;
-        padding: 90px 0 120px;
+        background: #ffffff;
+        padding: 80px 0 90px;
         text-align: center;
     }
 
@@ -333,122 +394,100 @@
         letter-spacing: 2px;
         color: #c4a46b;
         text-transform: uppercase;
-        margin: 0 0 10px;
+        margin: 0 0 6px;
     }
 
     .team-title {
-        font-size: 26px;
+        font-size: 24px;
         font-weight: 800;
         color: #3e5048;
-        margin: 0 0 50px;
+        margin: 0 0 40px;
     }
 
     .team-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 40px 30px;
+        gap: 30px;
     }
 
     .team-card {
-        text-align: center;
+        background: #fff;
+        text-align: left;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.06);
     }
 
     .team-photo img {
+        display: block;
         width: 100%;
-        height: 320px;
+        height: 260px;
         object-fit: cover;
-        border-radius: 4px;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.08);
     }
 
-    .team-info h3 {
-        font-size: 15px;
-        font-weight: 700;
-        margin: 14px 0 5px;
-        color: #333;
+    .team-info {
+        padding: 14px 18px 16px;
+        border-top: 1px solid #eee;
     }
 
-    .team-info p {
-        font-size: 13px;
-        color: #666;
-        margin: 0;
-    }
-
-    @@media (max-width: 900px) {
-        .about-main-inner {
-            flex-direction: column;
+        .team-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 0 0 4px;
+            color: #333;
         }
 
-        .about-main-image,
-        .about-main-text {
-            flex: 1 1 100%;
+        .team-info p {
+            font-size: 12px;
+            color: #777;
+            margin: 0;
         }
 
-        .about-trusted-inner {
-            flex-direction: column;
-        }
-
-        .about-trusted-text {
-            padding: 40px 0 20px 0;
-        }
-
-        .team-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @@media (max-width: 600px) {
-        .team-grid {
-            grid-template-columns: 1fr;
-        }
-    }
 
     .about-contact {
-        background-color: #f5f5f5;
-        padding: 80px 0 90px;
+        background: #f5f5f5;
+        padding: 70px 0 80px;
     }
 
     .about-contact-inner {
         display: flex;
+        gap: 60px;
         align-items: center;
-        gap: 80px;
     }
 
     .about-contact-left {
         flex: 0 0 45%;
         position: relative;
-        min-height: 320px;
+        min-height: 280px;
     }
 
     .contact-shape {
         position: absolute;
         bottom: 0;
-        left: 18%;
+        left: 15%;
         width: 70%;
         height: 60%;
         background: #4b6253;
-        transform: skewX(-18deg);
+        transform: skewX(-15deg);
     }
 
     .about-contact-left img {
         position: relative;
-        z-index: 2;
+        z-index: 1;
         max-width: 100%;
-        height: 360px;
+        height: 320px;
         object-fit: cover;
         display: block;
     }
 
     .about-contact-right {
-        flex: 0 0 45%;
+        flex: 1;
     }
 
         .about-contact-right h2 {
-            font-size: 30px;
+            font-size: 28px;
             font-weight: 800;
             line-height: 1.3;
             color: #3e5048;
-            margin: 0 0 28px;
+            margin: 0 0 24px;
         }
 
     .contact-list {
@@ -460,15 +499,15 @@
         .contact-list li {
             display: flex;
             align-items: flex-start;
-            gap: 14px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 18px;
         }
 
         .contact-list .icon {
             font-size: 16px;
             line-height: 1;
             color: #c4a46b;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .contact-list strong {
@@ -477,7 +516,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #a0a0a0;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .contact-list li div {
@@ -489,21 +528,44 @@
             font-style: italic;
         }
 
-
     @@media (max-width: 900px) {
+        .about-main-inner {
+            flex-direction: column;
+        }
+
+        .about-trusted-inner {
+            flex-direction: column;
+        }
+
+        .about-trusted-text {
+            padding-right: 0;
+        }
+
+        .team-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
         .about-contact-inner {
             flex-direction: column;
-            gap: 40px;
         }
 
         .about-contact-left,
         .about-contact-right {
             flex: 1 1 100%;
         }
+    }
 
-        .about-contact-right {
-            text-align: left;
+    @@media (max-width: 600px) {
+        .team-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .about-hero-top {
+            padding: 40px 0 30px;
+        }
+
+        .about-contact-right h2 {
+            font-size: 22px;
         }
     }
 </style>
-

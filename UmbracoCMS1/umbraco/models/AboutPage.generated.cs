@@ -122,6 +122,62 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string PhoneNumber => this.Value<string>(_publishedValueFallback, "phoneNumber");
 
 		///<summary>
+		/// Review Body
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("reviewBody")]
+		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString ReviewBody => this.Value<global::Umbraco.Cms.Core.Strings.IHtmlEncodedString>(_publishedValueFallback, "reviewBody");
+
+		///<summary>
+		/// Review Company
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("reviewCompany")]
+		public virtual string ReviewCompany => this.Value<string>(_publishedValueFallback, "reviewCompany");
+
+		///<summary>
+		/// Review Eyebrow
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("reviewEyebrow")]
+		public virtual string ReviewEyebrow => this.Value<string>(_publishedValueFallback, "reviewEyebrow");
+
+		///<summary>
+		/// Review Image
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("reviewImage")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops ReviewImage => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "reviewImage");
+
+		///<summary>
+		/// Review Name
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("reviewName")]
+		public virtual string ReviewName => this.Value<string>(_publishedValueFallback, "reviewName");
+
+		///<summary>
+		/// Review Stars
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("reviewStars")]
+		public virtual string ReviewStars => this.Value<string>(_publishedValueFallback, "reviewStars");
+
+		///<summary>
+		/// Review Title
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("reviewTitle")]
+		public virtual string ReviewTitle => this.Value<string>(_publishedValueFallback, "reviewTitle");
+
+		///<summary>
 		/// Team Members
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]

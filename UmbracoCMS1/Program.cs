@@ -1,12 +1,16 @@
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Extensions;
 
-builder.CreateUmbracoBuilder()
+var builder = WebApplication.CreateBuilder(args);
+
+builder
+    .CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
     .AddComposers()
     .Build();
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 await app.BootUmbracoAsync();
 

@@ -1,9 +1,14 @@
 ﻿@using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Linq
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
     var root = Model?.Root();
     var menuItems = root?.Children?.Where(x => x.IsVisible()) ?? Enumerable.Empty<IPublishedContent>();
+
+    var topbarAddress = root != null ? root.Value<string>("topbarAddress") : "";
+    var footerMainText = root != null ? root.Value<string>("footerMainText") : "";
+    var footerCreditsText = root != null ? root.Value<string>("footerCreditsText") : "";
 }
 
 <!DOCTYPE html>
@@ -196,20 +201,33 @@
             padding: 20px 0;
             background: #222;
             color: #ccc;
-            font-size: 13px;
-        }
+			font-size: 13px;
+         }
+        
 
         .footer-inner {
-            text-align: center;
+			text-align: center;
+            justify-content: center;
+			display: flex;
+			gap: 10px;
+        }
+
+        .f-yellow {
+            color: #D9C3A9;
         }
     </style>
+
 </head>
 <body>
     <div class="topbar">
         <div class="container topbar-inner">
             <div class="topbar-left">
-                <span>Klarabergsviadukten 90, 111 64 Stockholm</span>
+                @if (!string.IsNullOrWhiteSpace(topbarAddress))
+                {
+                    <span>@topbarAddress</span>
+                }
             </div>
+
             <div class="topbar-right">
                 <span>f</span>
                 <span>tw</span>
@@ -228,8 +246,9 @@
             <nav class="main-nav">
                 <ul>
                     <li class="@(Model.Id == root?.Id ? "active" : "")">
-                        <a href="@root?.Url()">Home</a>
+                        <a href="@root?.Url()">@root?.Name</a>
                     </li>
+
 
                     @foreach (var item in menuItems)
                     {
@@ -251,10 +270,22 @@
         @RenderBody()
     </main>
 
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <p>© Onatrix. All Rights Reserved. Credits to Themesflat</p>
+    <footer>
+        <div class="site-footer">
+            <div class="container footer-inner">
+                @if (!string.IsNullOrWhiteSpace(footerMainText))
+                {
+                    <p>@footerMainText</p>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(footerCreditsText))
+                {
+                    <p class="f-yellow">@footerCreditsText</p>
+                }
+            </div>
         </div>
     </footer>
+
 </body>
 </html>
+

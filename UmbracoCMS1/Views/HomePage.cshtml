@@ -6,6 +6,10 @@
 @{
     var pageSections = Model.Value<IEnumerable<BlockListItem>>("pageSections")
                       ?? Enumerable.Empty<BlockListItem>();
+    var serviceBlocks = Model.Value<BlockListModel>("servicesBlocks");
+
+    var clientLogos = Model.Value<IEnumerable<IPublishedContent>>("clientLogos")
+                  ?? Enumerable.Empty<IPublishedContent>();
 }
 
 @{
@@ -16,6 +20,15 @@
     var heroImage = Model.Value<IPublishedContent>("heroBgImage");
     var heroImageUrl = heroImage?.Url() ?? "";
     var heroLink = Model.Value<Link>("heroLink");
+
+    var experienceEyebrow = Model.Value<string>("experienceEyebrow") ?? "";
+    var experienceHeading = Model.Value<string>("experienceHeading") ?? "";
+    var experienceIntro = Model.Value<string>("experienceIntro") ?? "";
+    var experienceBody = Model.Value<string>("experienceBody") ?? "";
+    var experienceSignatureName = Model.Value<string>("experienceSignatureName") ?? "";
+
+    var experienceSignatureImage = Model.Value<IPublishedContent>("experienceSignatureImage");
+    var experienceSignatureImageUrl = experienceSignatureImage?.Url() ?? "";
 }
 
 <section class="hero" style="background-image:url('@heroImageUrl');">
@@ -42,24 +55,49 @@
 <section class="about-experience">
     <div class="container about-inner">
         <div class="about-left">
-            <span class="eyebrow">ABOUT US</span>
-            <h2>We have 40 years experience</h2>
 
-            <p class="quote">
-                “We have over 25 years of experience providing expert financial advice
-                to both businesses and individuals.”
-            </p>
+            @if (!string.IsNullOrWhiteSpace(experienceEyebrow))
+            {
+                <span class="eyebrow">@experienceEyebrow</span>
+            }
 
-            <p>
-                Donec imperdiet nibh vulputate velit convallis, ac aliquet nunc rutrum.
-                Donec pulvinar ex a egestas blandit. Sed in nisl volutpat, luctus nibh sed,
-                tempus lorem.
-            </p>
+            @if (!string.IsNullOrWhiteSpace(experienceHeading))
+            {
+                <h2>@experienceHeading</h2>
+            }
 
-            <div class="signature">
-                <div class="sig-line">Tina Fox – CEO &amp; Founder</div>
-            </div>
+
+            @if (!string.IsNullOrWhiteSpace(experienceIntro))
+            {
+                <p class="quote">
+                    @Html.Raw(experienceIntro)
+                </p>
+            }
+            @if (!string.IsNullOrWhiteSpace(experienceBody))
+            {
+                <div class="about-body">
+                    @Html.Raw(experienceBody)
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(experienceSignatureName) || !string.IsNullOrEmpty(experienceSignatureImageUrl))
+            {
+                <div class="signature">
+                    @if (!string.IsNullOrEmpty(experienceSignatureImageUrl))
+                    {
+                        <img src="@experienceSignatureImageUrl" alt="@experienceSignatureName" />
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(experienceSignatureName))
+                    {
+                        <div class="sig-line">@experienceSignatureName</div>
+                    }
+                </div>
+            }
+
         </div>
+
+    </div>
+
 
         <div class="about-right">
             <div class="callback-card">
@@ -87,42 +125,37 @@
     </div>
 </section>
 
-@* SERVICES GRID SECTION *@
-@foreach (var block in pageSections)
+@if (serviceBlocks != null && serviceBlocks.Any())
 {
-    if (block.Content.ContentType.Alias == "servicesGridSection")
-    {
-        var sectionTitle = block.Content.Value<string>("sectionTitle") ?? "";
-        var services = block.Content.Value<IEnumerable<BlockListItem>>("services") ?? Enumerable.Empty<BlockListItem>();
+    <section class="services-section">
+        <div class="container">
 
-        <section class="services-section">
-            <div class="container">
-                <p class="services-eyebrow">OUR SERVICES</p>
-                <h2 class="services-title">@sectionTitle</h2>
+            <p class="services-eyebrow">OUR SERVICES</p>
+            <h2 class="services-title">We Provide The Solutions To Grow Your Business Faster</h2>
 
-                <div class="services-grid">
-                    @foreach (var service in services)
-                    {
-                        var title = service.Content.Value<string>("serviceTitle") ?? "";
-                        var desc = service.Content.Value<string>("serviceDescription") ?? "";
-                        var image = service.Content.Value<IPublishedContent>("serviceImage");
+            <div class="services-grid">
+                @foreach (var block in serviceBlocks)
+                {
+                    var title = block.Content.Value<string>("title") ?? "";
+                    var summary = block.Content.Value<string>("summary") ?? "";
+                    var image = block.Content.Value<IPublishedContent>("serviceImage");
 
-                        <article class="service-card">
-                            <h3 class="service-heading">@title</h3>
-                            @if (image != null)
-                            {
-                                <img class="service-image" src="@image.Url()" alt="@title" />
-                            }
-                            <p class="service-desc">@desc</p>
-                        </article>
-                    }
-                </div>
+                    <article class="service-card">
+                        <h3 class="service-heading">@title</h3>
+                        @if (image != null)
+                        {
+                            <img class="service-image" src="@image.Url()" alt="@title" />
+                        }
+                        <p class="service-desc">@summary</p>
+                    </article>
+                }
             </div>
-        </section>
-    }
+
+        </div>
+    </section>
 }
 
-@* TRUSTED CLIENTS SECTION *@
+
 @foreach (var block in pageSections)
 {
     if (block.Content.ContentType.Alias == "trustedClientsSection")
@@ -165,7 +198,6 @@
     }
 }
 
-@* SUCCESS STORY SECTION *@
 @foreach (var block in pageSections)
 {
     if (block.Content.ContentType.Alias == "successStorySection")
@@ -214,14 +246,19 @@
 
 <section class="logos-section">
     <div class="container logos-row">
-        <img src="https://localhost:44377/media/vmsnjq2o/logo-1.svg" alt="Client logo 1" />
-        <img src="https://localhost:44377/media/0lch4epn/logo-2.svg" alt="Client logo 2" />
-        <img src="https://localhost:44377/media/2drfq0cq/logo-3.svg" alt="Client logo 3" />
-        <img src="https://localhost:44377/media/3hllo5gg/logo-4.svg" alt="Client logo 4" />
-        <img src="https://localhost:44377/media/unmibcsx/logo-5.svg" alt="Client logo 5" />
-        <img src="https://localhost:44377/media/ipxicfxj/logo-6.svg" alt="Client logo 6" />
+        @foreach (var logo in clientLogos)
+        {
+            var url = logo?.Url() ?? "";
+            var name = logo?.Name ?? "Client logo";
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                <img src="@url" alt="@name" />
+            }
+        }
     </div>
 </section>
+
 
 <style>
     .hero {
@@ -333,6 +370,7 @@
         border-radius: 3px;
         margin-top: -160px;
         margin-left: auto;
+        
     }
 
     .callback-header {
@@ -461,7 +499,6 @@
         }
     }
 
-    /* TRUSTED CLIENTS */
     .trusted {
         background: #f7f7f7;
         background-repeat: no-repeat;
@@ -571,8 +608,6 @@
             }
     }
 
-    /* SUCCESS STORY SECTION */
-
     .success-section {
         background-color: #58625d;
         color: #fff;
@@ -678,7 +713,6 @@
         }
     }
 
-    /* === LOGO ROW (ALLA BREDDER) === */
     .logos-section {
         background: #F7F7F7;
         padding: 50px 0 50px;

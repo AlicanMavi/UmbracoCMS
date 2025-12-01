@@ -1,10 +1,19 @@
 ﻿@using Umbraco.Cms.Core.Models
 @using Umbraco.Cms.Core.Models.PublishedContent
 @using Umbraco.Cms.Core.Models.Blocks
+@using System.Collections.Generic
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
 
 @{
     Layout = "_Layout";
+
+    var heroTitle = Model.Value<string>("heroTitle") ?? "";
+    var heroBreadcrumbName = Model.Value<string>("heroBreadcrumbName") ?? "";
+    var heroEyebrow = Model.Value<string>("heroEyebrow") ?? "";
+    var heroDescription = Model.Value<string>("heroDescription") ?? "";
+    var heroBgImage = Model.Value<IPublishedContent>("heroBgImage");
+    var heroBgUrl = heroBgImage != null ? heroBgImage.Url() : "";
 
     var pageSections = Model.Value<IEnumerable<BlockListItem>>("pageSections")
                       ?? Enumerable.Empty<BlockListItem>();
@@ -18,14 +27,39 @@
     var emailAddress = Model.Value<string>("emailAddress") ?? "";
 }
 
+
+
 <section class="services-hero-top">
     <div class="container">
-        <h1>Our Services</h1>
-        <p class="breadcrumb">Home / <span>Services</span></p>
+
+        @{
+            var titleText = !string.IsNullOrWhiteSpace(heroTitle)
+            ? heroTitle
+            : Model.Name;
+
+            var crumbText = !string.IsNullOrWhiteSpace(heroBreadcrumbName)
+            ? heroBreadcrumbName
+            : Model.Name;
+
+            var home = Umbraco.ContentAtRoot().FirstOrDefault();
+        }
+
+        <h1>@titleText</h1>
+
+        <p class="breadcrumb">
+            @if (home != null)
+            {
+                <a href="@home.Url()">Home</a>
+                <span> / </span>
+            }
+
+            <span>@crumbText</span>
+        </p>
     </div>
 </section>
 
-@* SERVICES GRID FRÅN PAGE SECTIONS *@
+
+
 @foreach (var block in pageSections)
 {
     if (block.Content.ContentType.Alias == "servicesGridSection")

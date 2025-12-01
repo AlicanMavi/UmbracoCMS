@@ -50,6 +50,78 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
+		/// Client logos
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("clientLogos")]
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Cms.Core.Models.MediaWithCrops> ClientLogos => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Cms.Core.Models.MediaWithCrops>>(_publishedValueFallback, "clientLogos");
+
+		///<summary>
+		/// body text
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("experienceBody")]
+		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString ExperienceBody => this.Value<global::Umbraco.Cms.Core.Strings.IHtmlEncodedString>(_publishedValueFallback, "experienceBody");
+
+		///<summary>
+		/// Eyebrow
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("experienceEyebrow")]
+		public virtual string ExperienceEyebrow => this.Value<string>(_publishedValueFallback, "experienceEyebrow");
+
+		///<summary>
+		/// Main heading
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("experienceHeading")]
+		public virtual string ExperienceHeading => this.Value<string>(_publishedValueFallback, "experienceHeading");
+
+		///<summary>
+		/// Intro
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("experienceIntro")]
+		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString ExperienceIntro => this.Value<global::Umbraco.Cms.Core.Strings.IHtmlEncodedString>(_publishedValueFallback, "experienceIntro");
+
+		///<summary>
+		/// Signature Image
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("experienceSignatureImage")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops ExperienceSignatureImage => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "experienceSignatureImage");
+
+		///<summary>
+		/// Signature Name
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("experienceSignatureName")]
+		public virtual string ExperienceSignatureName => this.Value<string>(_publishedValueFallback, "experienceSignatureName");
+
+		///<summary>
+		/// Footer credits text
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("footerCreditsText")]
+		public virtual string FooterCreditsText => this.Value<string>(_publishedValueFallback, "footerCreditsText");
+
+		///<summary>
+		/// Footer main text
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("footerMainText")]
+		public virtual string FooterMainText => this.Value<string>(_publishedValueFallback, "footerMainText");
+
+		///<summary>
 		/// Background Image
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
@@ -88,5 +160,21 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("pageSections")]
 		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel PageSections => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "pageSections");
+
+		///<summary>
+		/// Services
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("servicesBlocks")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel ServicesBlocks => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "servicesBlocks");
+
+		///<summary>
+		/// Topbar address
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("topbarAddress")]
+		public virtual string TopbarAddress => this.Value<string>(_publishedValueFallback, "topbarAddress");
 	}
 }

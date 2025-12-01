@@ -74,6 +74,46 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual string EmailAddress => this.Value<string>(_publishedValueFallback, "emailAddress");
 
 		///<summary>
+		/// Background Image
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroBgImage")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops HeroBgImage => this.Value<global::Umbraco.Cms.Core.Models.MediaWithCrops>(_publishedValueFallback, "heroBgImage");
+
+		///<summary>
+		/// Breadcrumb Name
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroBreadcrumbName")]
+		public virtual string HeroBreadcrumbName => this.Value<string>(_publishedValueFallback, "heroBreadcrumbName");
+
+		///<summary>
+		/// Hero Description
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroDescription")]
+		public virtual global::Umbraco.Cms.Core.Strings.IHtmlEncodedString HeroDescription => this.Value<global::Umbraco.Cms.Core.Strings.IHtmlEncodedString>(_publishedValueFallback, "heroDescription");
+
+		///<summary>
+		/// Hero Eyebrow
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroEyebrow")]
+		public virtual string HeroEyebrow => this.Value<string>(_publishedValueFallback, "heroEyebrow");
+
+		///<summary>
+		/// Hero Title
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroTitle")]
+		public virtual string HeroTitle => this.Value<string>(_publishedValueFallback, "heroTitle");
+
+		///<summary>
 		/// Office Location
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "16.3.4+0d2393d")]
